@@ -1,8 +1,6 @@
 const express = require("express");
 const routes = express();
-const ProductController = require("../controller/ProductController");
 const StationController = require("../controller/StationController");
-const { productValidator } = require("../middleware/validation");
 const {
   commonValidator,
   stationValidator,
