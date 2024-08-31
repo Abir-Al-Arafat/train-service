@@ -15,10 +15,7 @@ class Station {
       if (
         (sortOrder && !sortParam) ||
         (!sortOrder && sortParam) ||
-        (sortParam &&
-          sortParam !== "stock" &&
-          sortParam !== "price" &&
-          sortParam !== "name") ||
+        (sortParam && sortParam !== "name") ||
         (sortOrder && sortOrder !== "asc" && sortOrder !== "desc")
       ) {
         return res
