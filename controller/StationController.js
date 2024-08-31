@@ -6,19 +6,7 @@ const StationModel = require("../model/StationModel");
 class Station {
   async getAll(req, res) {
     try {
-      const {
-        sortParam,
-        sortOrder,
-        search,
-        name,
-        author,
-        price,
-        priceFil,
-        stock,
-        stockFil,
-        page,
-        limit,
-      } = req.query;
+      const { sortParam, sortOrder, search, name, page, limit } = req.query;
       if (page < 1 || limit < 0) {
         return res
           .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
@@ -39,26 +27,8 @@ class Station {
       }
       const filter = {};
 
-      if (price && priceFil) {
-        if (priceFil === "low") {
-          filter.price = { $lte: parseFloat(price) };
-        } else {
-          filter.price = { $gte: parseFloat(price) };
-        }
-      }
-      if (stock && stockFil) {
-        if (stockFil === "low") {
-          filter.stock = { $lte: parseFloat(stock) };
-        } else {
-          filter.stock = { $gte: parseFloat(stock) };
-        }
-      }
-
       if (name) {
         filter.name = { $regex: name, $options: "i" };
-      }
-      if (author) {
-        filter.author = { $in: author.toLowerCase() };
       }
       if (search) {
         filter["$or"] = [
