@@ -37,18 +37,8 @@ class AuthController {
         name: req.body.name,
         email: req.body.email,
         phone: req.body.phone,
-        // gender: req.body?.gender,
-        // address: {
-        //   house: req.body?.house,
-        //   road: req.body?.road,
-        //   area: req.body?.area,
-        //   city: req.body.city,
-        //   country: req.body.country,
-        // },
-        // balance: req.body.balance ? req.body.balance : 0,
       });
 
-      // const newUser = await User.create(req.body)
       // creates new user and stores
       const newUser = await AuthModel.create({
         email: req.body.email,
