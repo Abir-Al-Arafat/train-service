@@ -7,19 +7,12 @@ const { userValidator, authValidator } = require("../middleware/validation");
 // for signing up
 routes.post(
   "/auth/signup",
-  //   userValidator.create,
-  //   authValidator.create,
+  userValidator.create,
+  authValidator.create,
   AuthController.signup
 );
 
 // for logging in
-routes.post(
-  "/auth/login",
-  // authValidator.login,
-  AuthController.login
-);
-
-// for logging in
-// routes.post('/auth/login', authValidator.login, ProductController.getAll)
+routes.post("/auth/login", authValidator.login, AuthController.login);
 
 module.exports = routes;

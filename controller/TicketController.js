@@ -1,7 +1,7 @@
 const HTTP_STATUS = require("../constants/statusCodes");
 const { validationResult } = require("express-validator");
 const { success, failure } = require("../utilities/common");
-const StationModel = require("../model/StationModel");
+const TicketModel = require("../model/StationModel");
 const TicketModel = require("../model/TicketModel");
 const TrainModel = require("../model/TrainModel");
 
@@ -37,18 +37,18 @@ class TicketController {
       }
       console.log(filter.$or);
       // console.log(typeof Object.keys(JSON.parse(JSON.stringify(filter)))[0]);
-      const stationCount = await StationModel.find({}).count();
-      const stations = await StationModel.find(filter)
+      const ticketCount = await TicketModel.find({}).count();
+      const tickets = await TicketModel.find(filter)
         .sort({
           [sortParam]: sortOrder === "asc" ? 1 : -1,
         })
         .skip((page - 1) * limit)
         .limit(limit ? limit : 10);
       // console.log(products)
-      if (stations.length === 0) {
+      if (tickets.length === 0) {
         return res.status(HTTP_STATUS.NOT_FOUND).send(
-          success("No stations were found", {
-            total: stationCount,
+          success("No tickets were found", {
+            total: ticketCount,
             totalPages: null,
             count: 0,
             page: 0,
@@ -58,16 +58,16 @@ class TicketController {
         );
       }
 
-      console.log(stations);
+      console.log(tickets);
 
       return res.status(HTTP_STATUS.OK).send(
-        success("Successfully got all stations", {
-          total: stationCount,
-          totalPages: limit ? Math.ceil(stationCount / limit) : null,
-          count: stations.length,
+        success("Successfully got all tickets", {
+          total: ticketCount,
+          totalPages: limit ? Math.ceil(ticketCount / limit) : null,
+          count: tickets.length,
           page: parseInt(page),
           limit: parseInt(limit),
-          stations: stations,
+          tickets: tickets,
         })
       );
     } catch (error) {
@@ -86,15 +86,15 @@ class TicketController {
       if (validation.length > 0) {
         return res
           .status(HTTP_STATUS.NOT_FOUND)
-          .send(failure("Failed to get the station", validation[0].msg));
+          .send(failure("Failed to get the ticket", validation[0].msg));
       }
 
       const { id } = req.params;
 
-      const station = await StationModel.find({ _id: id });
-      console.log("station", station);
-      if (station.length) {
-        return res.status(HTTP_STATUS.OK).send(station[0]);
+      const ticket = await TicketModel.find({ _id: id });
+      console.log("ticket", ticket);
+      if (ticket.length) {
+        return res.status(HTTP_STATUS.OK).send(ticket[0]);
       } else {
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
@@ -108,13 +108,13 @@ class TicketController {
   // adds
   async addOne(req, res) {
     try {
-      //   const validation = validationResult(req).array();
-      //   // console.log(validation);
-      //   if (validation.length > 0) {
-      //     return res
-      //       .status(HTTP_STATUS.NOT_ACCEPTABLE)
-      //       .send(failure("Failed to add station", validation[0].msg));
-      //   }
+      const validation = validationResult(req).array();
+      // console.log(validation);
+      if (validation.length > 0) {
+        return res
+          .status(HTTP_STATUS.NOT_ACCEPTABLE)
+          .send(failure("Failed to add station", validation[0].msg));
+      }
       const { trainId, originStationId, destinationStationId, fare, qty } =
         req.body;
       const train = await TrainModel.findById(trainId);
@@ -124,8 +124,8 @@ class TicketController {
           .send(failure("Train not found"));
       }
 
-      const originStation = await StationModel.findById(originStationId);
-      const destinationStation = await StationModel.findById(
+      const originStation = await TicketModel.findById(originStationId);
+      const destinationStation = await TicketModel.findById(
         destinationStationId
       );
       if (!originStation || !destinationStation) {
@@ -151,8 +151,8 @@ class TicketController {
         destinationStop.arrivalTime - originStop.departureTime;
       const durationInHours = durationInMilliseconds / (1000 * 60 * 60); // Convert milliseconds to hours
 
-      // Define a rate per hour (this is an example, you can define your own rate)
-      const ratePerHour = 10; // Example rate: $10 per hour
+      // Define a rate per hour
+      const ratePerHour = 10;
 
       // Calculate the fare based on the duration and rate
       const fareBasedOnDuration = durationInHours * ratePerHour;
@@ -186,23 +186,23 @@ class TicketController {
       if (validation.length > 0) {
         return res
           .status(HTTP_STATUS.OK)
-          .send(failure("Failed to delete station", validation[0].msg));
+          .send(failure("Failed to delete ticket", validation[0].msg));
       }
-      const stationId = req.params.id;
-      console.log("stationId", stationId);
+      const ticketId = req.params.id;
+      console.log("ticketId", ticketId);
       // Find the item by ID and delete it
-      const deletedStation = await StationModel.findByIdAndDelete(stationId);
-      console.log("deleted item", deletedStation);
+      const deletedTicket = await TicketModel.findByIdAndDelete(ticketId);
+      console.log("deleted item", deletedTicket);
 
-      if (!deletedStation) {
+      if (!deletedTicket) {
         return res
           .status(HTTP_STATUS.NOT_FOUND)
-          .json({ message: "Station not found" });
+          .json({ message: "Ticket not found" });
       }
 
       return res
         .status(HTTP_STATUS.ACCEPTED)
-        .send(success("Station deleted successfully", deletedStation));
+        .send(success("Ticket deleted successfully", deletedTicket));
     } catch (error) {
       console.error(error);
       return res
@@ -214,34 +214,34 @@ class TicketController {
   // updates
   async update(req, res) {
     try {
-      const stationId = req.params.id;
-      const updatedStationData = req.body;
+      const ticketId = req.params.id;
+      const updatedTicketData = req.body;
 
       const validation = validationResult(req).array();
 
       if (validation.length > 0) {
         return res
           .status(HTTP_STATUS.OK)
-          .send(failure("Failed to update station data", validation[0].msg));
+          .send(failure("Failed to update ticket data", validation[0].msg));
       }
 
-      const updatedStation = await StationModel.findByIdAndUpdate(
-        stationId,
-        updatedStationData,
+      const updatedTicket = await TicketModel.findByIdAndUpdate(
+        ticketId,
+        updatedTicketData,
         // Returns the updated document
         { new: true }
       );
 
-      if (!updatedStation) {
+      if (!updatedTicket) {
         return res
           .status(HTTP_STATUS.NOT_FOUND)
-          .json({ message: "station not found" });
+          .json({ message: "ticket not found" });
       }
-      console.log(updatedStation);
+      console.log(updatedTicket);
 
       return res
         .status(HTTP_STATUS.ACCEPTED)
-        .send(success("Station updated successfully", updatedStation));
+        .send(success("Ticket updated successfully", updatedTicket));
     } catch (error) {
       return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)

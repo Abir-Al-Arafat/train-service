@@ -1,10 +1,7 @@
 const express = require("express");
 const routes = express();
 const TrainController = require("../controller/TrainController");
-const {
-  commonValidator,
-  stationValidator,
-} = require("../middleware/validation");
+const { commonValidator, trainValidator } = require("../middleware/validation");
 
 const { isAuthorized } = require("../middleware/authValidationJWT");
 
@@ -27,7 +24,7 @@ routes.delete(
 routes.post(
   "/add",
   isAuthorized,
-  //   stationValidator.create,
+  trainValidator.create,
   TrainController.addOne
 );
 
@@ -35,7 +32,7 @@ routes.post(
 routes.patch(
   "/:id",
   isAuthorized,
-  //   stationValidator.update,
+  trainValidator.update,
   TrainController.update
 );
 

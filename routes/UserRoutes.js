@@ -1,7 +1,7 @@
 const express = require("express");
 const routes = express();
 const UserController = require("../controller/UserController");
-const AuthController = require("../controller/AuthController");
+
 const {
   isAuthorized,
   isAuthorizedUser,
@@ -33,11 +33,5 @@ routes.patch(
   userValidator.update,
   UserController.updateUserByAdmin
 );
-
-// for signing up
-// routes.post('/signup', AuthController.signup)
-
-// for logging in
-// routes.post('/login', AuthController.login)
 
 module.exports = routes;

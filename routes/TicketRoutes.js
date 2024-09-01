@@ -3,7 +3,7 @@ const routes = express();
 const TicketController = require("../controller/TicketController");
 const {
   commonValidator,
-  stationValidator,
+  ticketValidator,
 } = require("../middleware/validation");
 
 const { isAuthorized } = require("../middleware/authValidationJWT");
@@ -27,7 +27,7 @@ routes.delete(
 routes.post(
   "/add",
   isAuthorized,
-  //   stationValidator.create,
+  ticketValidator.create,
   TicketController.addOne
 );
 
@@ -35,7 +35,7 @@ routes.post(
 routes.patch(
   "/:id",
   isAuthorized,
-  //   stationValidator.update,
+  ticketValidator.update,
   TicketController.update
 );
 

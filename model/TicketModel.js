@@ -13,7 +13,7 @@ const TicketSchema = new mongoose.Schema({
     ref: "Station",
     required: true,
   },
-  fare: { type: Number, required: true },
+  fare: { type: Number, required: false },
   date: { type: Date, default: Date.now },
   qty: { type: Number, required: true, default: 1 },
 });

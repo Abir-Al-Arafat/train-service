@@ -111,13 +111,13 @@ class Train {
   // adds
   async addOne(req, res) {
     try {
-      //   const validation = validationResult(req).array();
-      //   // console.log(validation);
-      //   if (validation.length > 0) {
-      //     return res
-      //       .status(HTTP_STATUS.NOT_ACCEPTABLE)
-      //       .send(failure("Failed to add station", validation[0].msg));
-      //   }
+      const validation = validationResult(req).array();
+      // console.log(validation);
+      if (validation.length > 0) {
+        return res
+          .status(HTTP_STATUS.NOT_ACCEPTABLE)
+          .send(failure("Failed to add train", validation[0].msg));
+      }
       const { name, stops } = req.body;
 
       for (const stop of stops) {
@@ -183,13 +183,13 @@ class Train {
       const trainId = req.params.id;
       const updatedTrainData = req.body;
 
-      //   const validation = validationResult(req).array();
+      const validation = validationResult(req).array();
 
-      //   if (validation.length > 0) {
-      //     return res
-      //       .status(HTTP_STATUS.OK)
-      //       .send(failure("Failed to update station data", validation[0].msg));
-      //   }
+      if (validation.length > 0) {
+        return res
+          .status(HTTP_STATUS.OK)
+          .send(failure("Failed to update station data", validation[0].msg));
+      }
 
       const updatedTrain = await TrainModel.findByIdAndUpdate(
         trainId,

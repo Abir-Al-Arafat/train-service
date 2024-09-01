@@ -109,14 +109,13 @@ class UserController {
       console.log("updatedUser", updatedUserData);
 
       let updatedUser;
-      if (updatedUserData.phone || updatedUserData.gender) {
-        updatedUser = await UserModel.findByIdAndUpdate(
-          userId,
-          updatedUserData,
-          // Returns the updated document
-          { new: true }
-        );
-      }
+
+      updatedUser = await UserModel.findByIdAndUpdate(
+        userId,
+        updatedUserData,
+        // Returns the updated document
+        { new: true }
+      );
 
       if (!updatedUser) {
         return res
@@ -127,7 +126,7 @@ class UserController {
       updatedUser.__v = undefined;
       return res
         .status(HTTP_STATUS.ACCEPTED)
-        .send(success("Product updated successfully", updatedUser));
+        .send(success("user data updated successfully", updatedUser));
     } catch (error) {
       console.log(error);
       return res
