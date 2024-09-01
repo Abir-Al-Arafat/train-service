@@ -15,6 +15,7 @@ const AuthRouter = require("./routes/AuthRoutes");
 const StationRouter = require("./routes/StationRoutes");
 const TrainRouter = require("./routes/TrainRoutes");
 const TicketRouter = require("./routes/TicketRoutes");
+const WalletRouter = require("./routes/WalletRoutes");
 
 const app = express();
 
@@ -51,15 +52,14 @@ const accessLogStream = fs.createWriteStream(
 // Use morgan with a combined format and stream it to the access log file
 app.use(morgan("combined", { stream: accessLogStream }));
 
-// app.use("/products", ProductRouter);
 app.use("/transactions", TransactionRouter);
 app.use("/users", UserRouter);
 app.use("/users", AuthRouter);
 
-//
 app.use("/stations", StationRouter);
 app.use("/trains", TrainRouter);
 app.use("/tickets", TicketRouter);
+app.use("/wallets", WalletRouter);
 
 // Route to handle all other invalid requests
 app.use((req, res) => {

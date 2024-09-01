@@ -1,7 +1,6 @@
 const HTTP_STATUS = require("../constants/statusCodes");
 const { validationResult } = require("express-validator");
 const { success, failure } = require("../utilities/common");
-const TicketModel = require("../model/StationModel");
 const TicketModel = require("../model/TicketModel");
 const TrainModel = require("../model/TrainModel");
 
