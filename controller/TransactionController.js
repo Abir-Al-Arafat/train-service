@@ -18,19 +18,18 @@ class TransactionController {
           .send(failure("Invalid parameter sent"));
       }
 
-      // transaction = await TransactionModel.find({})
-      // .populate("user")
-      // .populate("products.product")
-
       if (detail === "1") {
         transaction = await TransactionModel.find({})
           .populate("user")
-          .populate("products.product");
-        return response.status(200).send(
-          success("Successfully received all transactions", {
-            result: transaction,
-          })
-        );
+          .populate("wallet");
+        if (transaction) {
+          return response.status(200).send(
+            success("Successfully received all transactions", {
+              result: transaction,
+            })
+          );
+        }
+        return response.status(200).send(success("No transactions were found"));
       } else {
         transaction = await TransactionModel.find({});
         if (transaction) {

@@ -6,16 +6,10 @@ const {
   isAuthorizedUser,
 } = require("../middleware/authValidationJWT");
 
-// gets all data
-// routes.get("/", isAuthorized, TransactiontController.getAll);
-routes.get("/", TransactiontController.getAll);
+// gets all transaction
+routes.get("/", isAuthorized, TransactiontController.getAll);
 
-// adds data
+// buy ticket
 routes.post("/create/:id", isAuthorizedUser, TransactiontController.create);
-// routes.post(
-//   "/create/",
-//   // isAuthorizedUser,
-//   TransactiontController.create
-// );
 
 module.exports = routes;
