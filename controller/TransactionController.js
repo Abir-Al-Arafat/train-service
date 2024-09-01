@@ -1,14 +1,9 @@
-const { success, failure } = require("../utilities/common");
-const TransactionModel = require("../model/TransactionModel");
-const ProductModel = require("../model/Product");
-const UserModel = require("../model/UserModel");
-const CartModel = require("../model/Cart");
-const DiscountModel = require("../model/Discount");
-const AuthModel = require("../model/AuthModel");
-
 const HTTP_STATUS = require("../constants/statusCodes");
+const { success, failure } = require("../utilities/common");
+
+const TransactionModel = require("../model/TransactionModel");
+const AuthModel = require("../model/AuthModel");
 const TicketModel = require("../model/TicketModel");
-const TrainModel = require("../model/TrainModel");
 const WalletModel = require("../model/WalletModel");
 
 class TransactionController {
