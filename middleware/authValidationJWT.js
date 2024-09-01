@@ -13,16 +13,24 @@ const isAuthorized = (req, res, next) => {
     if (validate.role == "admin") {
       next();
     } else {
-      return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Something went wrong"));
+      return res
+        .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
+        .send(failure("Only admin can access"));
     }
   } catch (error) {
     console.log(error);
     if (error instanceof jsonWebToken.TokenExpiredError) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(failure("Access expired"));
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .send(failure("Access expired"));
     } else if (error instanceof jsonWebToken.JsonWebTokenError) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(failure("Unauthorized access"));
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .send(failure("Unauthorized access"));
     } else {
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(failure("Internal server error"));
     }
   }
 };
@@ -42,16 +50,24 @@ const isAuthorizedUser = (req, res, next) => {
     if (validate._id == userId && validate.role == "user") {
       next();
     } else {
-      return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Something went wrong"));
+      return res
+        .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
+        .send(failure("Something went wrong"));
     }
   } catch (error) {
     console.log(error);
     if (error instanceof jsonWebToken.TokenExpiredError) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(failure("Access expired"));
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .send(failure("Access expired"));
     } else if (error instanceof jsonWebToken.JsonWebTokenError) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(failure("Unauthorized access"));
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .send(failure("Unauthorized access"));
     } else {
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(failure("Internal server error"));
     }
   }
 };

@@ -6,12 +6,7 @@ const {
   stationValidator,
 } = require("../middleware/validation");
 
-// const createValidation = require("../middleware/validation");
-// const createValidationPartial = require("../middleware/validationPartial");
-
 const { isAuthorized } = require("../middleware/authValidationJWT");
-
-// routes.get("/getall", ProductController.getAllProducts);
 
 // gets all data
 routes.get("/all", TicketController.getAll);
@@ -23,7 +18,7 @@ routes.get("/:id", commonValidator.mongoId, TicketController.getOne);
 // deletes
 routes.delete(
   "/:id",
-  // isAuthorized,
+  isAuthorized,
   commonValidator.mongoId,
   TicketController.delete
 );
@@ -31,7 +26,7 @@ routes.delete(
 // add
 routes.post(
   "/add",
-  // isAuthorized,
+  isAuthorized,
   //   stationValidator.create,
   TicketController.addOne
 );
@@ -39,12 +34,9 @@ routes.post(
 // partial update
 routes.patch(
   "/:id",
-  // isAuthorized,
-  stationValidator.update,
+  isAuthorized,
+  //   stationValidator.update,
   TicketController.update
 );
-
-// update
-// routes.put('/:id', createValidation, ProductController.update)
 
 module.exports = routes;
