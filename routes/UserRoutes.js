@@ -15,8 +15,8 @@ routes.get("/", UserController.getAll);
 // get one user data
 routes.get("/:id", UserController.getOne);
 
-// adds balance to user
-routes.patch("/add-balance/:id", isAuthorizedUser, UserController.addBalance);
+// // adds balance to user
+// routes.patch("/add-balance/:id", isAuthorizedUser, UserController.addBalance);
 
 // updates user data
 routes.patch(

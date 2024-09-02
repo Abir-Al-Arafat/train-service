@@ -84,7 +84,7 @@ class Wallet {
       if (validation.length > 0) {
         return res
           .status(HTTP_STATUS.NOT_FOUND)
-          .send(failure("Failed to get the station", validation[0].msg));
+          .send(failure("Failed to get the wallet", validation[0].msg));
       }
 
       const { id } = req.params;
@@ -108,6 +108,52 @@ class Wallet {
       }
     } catch (error) {
       return res.status(HTTP_STATUS.BAD_REQUEST).send(`internal server error`);
+    }
+  }
+
+  async addBalance(req, res) {
+    try {
+      const validation = validationResult(req).array();
+      //   console.log(validation);
+      if (validation.length > 0) {
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send(failure("Failed to update the balance", validation[0].msg));
+      }
+      const authId = req.params.id;
+      const { balance } = req.body;
+
+      const userAuth = await AuthModel.find({ _id: authId }).populate("user");
+
+      if (!userAuth) {
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send(failure("User was not found"));
+      }
+
+      const wallet = await WalletModel.findOne({
+        user: userAuth[0].user,
+      }).populate("user");
+
+      if (!wallet) {
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send(failure("Wallet was not found"));
+      }
+
+      wallet.balance += balance;
+
+      const balanceUpdated = await wallet.save();
+
+      if (balanceUpdated) {
+        return res
+          .status(HTTP_STATUS.OK)
+          .send(success("Successfully updated balance!", balanceUpdated));
+      }
+    } catch (error) {
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(failure("Internal server error"));
     }
   }
 }
