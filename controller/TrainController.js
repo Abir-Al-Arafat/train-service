@@ -157,10 +157,10 @@ class Train {
       const trainId = req.params.id;
       console.log("trainId", trainId);
       // Find the item by ID and delete it
-      const deletedStation = await TrainModel.findByIdAndDelete(trainId);
-      console.log("deleted item", deletedStation);
+      const deletedTrain = await TrainModel.findByIdAndDelete(trainId);
+      console.log("deleted item", deletedTrain);
 
-      if (!deletedStation) {
+      if (!deletedTrain) {
         return res
           .status(HTTP_STATUS.NOT_FOUND)
           .json({ message: "train not found" });
@@ -168,7 +168,7 @@ class Train {
 
       return res
         .status(HTTP_STATUS.ACCEPTED)
-        .send(success("Station deleted successfully", deletedStation));
+        .send(success("Train deleted successfully", deletedTrain));
     } catch (error) {
       console.error(error);
       return res

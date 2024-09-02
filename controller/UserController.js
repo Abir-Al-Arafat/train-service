@@ -3,7 +3,6 @@ const { validationResult } = require("express-validator");
 const HTTP_STATUS = require("../constants/statusCodes");
 const UserModel = require("../model/UserModel");
 const AuthModel = require("../model/AuthModel");
-const WalletModel = require("../model/WalletModel");
 
 class UserController {
   async getAll(request, response) {
@@ -81,7 +80,7 @@ class UserController {
       updatedUser.__v = undefined;
       return res
         .status(HTTP_STATUS.ACCEPTED)
-        .send(success("Product updated successfully", updatedUser));
+        .send(success("User data updated successfully", updatedUser));
     } catch (error) {
       console.log(error);
       return res
