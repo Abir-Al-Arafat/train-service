@@ -1,5 +1,6 @@
 const HTTP_STATUS = require("../constants/statusCodes");
 const { validationResult } = require("express-validator");
+const cron = require("node-cron");
 const { success, failure } = require("../utilities/common");
 const TicketModel = require("../model/TicketModel");
 const TrainModel = require("../model/TrainModel");
@@ -247,8 +248,58 @@ class TicketController {
         .json({ message: "INTERNAL SERVER ERROR" });
     }
   }
+
+  async addTenTicketsAutomatically() {
+    try {
+      // Fetch all trains
+      const trains = await TrainModel.find();
+
+      if (!trains || trains.length === 0) {
+        console.log("No trains found to add tickets for.");
+        return;
+      }
+
+      for (const train of trains) {
+        const originStation = train.stops[0].station;
+        const destinationStation = train.stops[train.stops.length - 1].station;
+
+        // Calculate the duration between the origin and destination
+        const durationInMilliseconds =
+          train.stops[train.stops.length - 1].arrivalTime -
+          train.stops[0].departureTime;
+        const durationInHours = durationInMilliseconds / (1000 * 60 * 60); // Convert milliseconds to hours
+
+        // Define a rate per hour
+        const ratePerHour = 10;
+
+        // Calculate the fare based on the duration and rate
+        const fareBasedOnDuration = durationInHours * ratePerHour;
+
+        const ticket = new TicketModel({
+          name: `${train.name} ticket`,
+          train: train._id,
+          origin: originStation._id,
+          destination: destinationStation._id,
+          fare: fareBasedOnDuration,
+          qty: 10,
+        });
+
+        await ticket.save();
+      }
+
+      console.log("10 tickets added for each train successfully.");
+    } catch (error) {
+      console.error("Error adding 10 tickets automatically:", error);
+    }
+  }
 }
 
 const ticketController = new TicketController();
+
+// Schedule the cron job to run every 24 hours
+cron.schedule("0 0 * * *", () => {
+  console.log("Running cron job to add 10 tickets...");
+  ticketController.addTenTicketsAutomatically();
+});
 
 module.exports = ticketController;
