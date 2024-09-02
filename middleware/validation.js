@@ -526,6 +526,14 @@ const authValidator = {
   ],
 };
 
+const walletValidator = {
+  create: [
+    body("balance")
+      .isFloat({ min: 10, max: 10000 })
+      .withMessage("Balance must be between 10 and 10000."),
+  ],
+};
+
 module.exports = {
   productValidator,
   userValidator,
@@ -535,4 +543,5 @@ module.exports = {
   ticketValidator,
   trainValidator,
   transactionValidator,
+  walletValidator,
 };
