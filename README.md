@@ -43,22 +43,22 @@ npm run dev
 # Description:
 
 1. User Management:
-   ○ User can register and login.
-   ○ JWT used for secure authentication and authorization.
-   ○ Passwords been hashed using bcrypt before storing them in the database.
+   - User can register and login.
+   - JWT used for secure authentication and authorization.
+   - Passwords been hashed using bcrypt before storing them in the database.
 2. Station Management:
-   ○ Endpoints implemented for creating, updating, and retrieving station information.
+   - Endpoints implemented for creating, updating, and retrieving station information.
 3. Train Management:
-   ○ Endpoints implemented for creating, updating, and retrieving train schedules and stops.
-   ○ Each train has a list of stops with accurate timings.
+   - Endpoints implemented for creating, updating, and retrieving train schedules and stops.
+   - Each train has a list of stops with accurate timings.
 4. Wallet Integration:
-   ○ Implemented endpoints for adding funds to user wallets.
-   ○ Wallet balance can be updated and transaction history is maintained.
+   - Implemented endpoints for adding funds to user wallets.
+   - Wallet balance can be updated and transaction history is maintained.
 5. Ticketing System:
-   ○ Implemented endpoints for purchasing tickets using wallet balance.
-   ○ Fare is calculated based on train stops and wallet balance updated accordingly.
+   - Implemented endpoints for purchasing tickets using wallet balance.
+   - Fare is calculated based on train stops and wallet balance updated accordingly.
 6. Middleware for Authentication and Validations:
-   ○ Middlewares added for validations and to protect routes and ensure only authenticated users can access them.
+   - Middlewares added for validations and to protect routes and ensure only authenticated users can access them.
 7. Error Handling
 
 <p><strong>Project  Structure:</strong></p>
