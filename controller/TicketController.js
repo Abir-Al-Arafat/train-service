@@ -4,6 +4,7 @@ const cron = require("node-cron");
 const { success, failure } = require("../utilities/common");
 const TicketModel = require("../model/TicketModel");
 const TrainModel = require("../model/TrainModel");
+const StationModel = require("../model/StationModel");
 
 class TicketController {
   async getAll(req, res) {
@@ -124,8 +125,8 @@ class TicketController {
           .send(failure("Train not found"));
       }
 
-      const originStation = await TicketModel.findById(originStationId);
-      const destinationStation = await TicketModel.findById(
+      const originStation = await StationModel.findById(originStationId);
+      const destinationStation = await StationModel.findById(
         destinationStationId
       );
       if (!originStation || !destinationStation) {

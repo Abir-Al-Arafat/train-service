@@ -54,19 +54,19 @@ const stationValidator = {
 
 const ticketValidator = {
   create: [
-    body("train")
+    body("trainId")
       .notEmpty()
       .withMessage("Train ID is required")
       .isMongoId()
       .withMessage("Train ID must be a valid MongoDB ObjectId"),
 
-    body("origin")
+    body("originStationId")
       .notEmpty()
       .withMessage("Origin Station ID is required")
       .isMongoId()
       .withMessage("Origin Station ID must be a valid MongoDB ObjectId"),
 
-    body("destination")
+    body("destinationStationId")
       .notEmpty()
       .withMessage("Destination Station ID is required")
       .isMongoId()
