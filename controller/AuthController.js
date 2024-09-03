@@ -10,13 +10,13 @@ const WalletModel = require("../model/WalletModel");
 class AuthController {
   async signup(req, res) {
     try {
-      // const validation = validationResult(req).array();
-      // console.log(validation);
-      // if (validation.length > 0) {
-      //   return res
-      //     .status(HTTP_STATUS.OK)
-      //     .send(failure("Failed to add the user", validation[0].msg));
-      // }
+      const validation = validationResult(req).array();
+      console.log(validation);
+      if (validation.length > 0) {
+        return res
+          .status(HTTP_STATUS.OK)
+          .send(failure("Failed to add the user", validation[0].msg));
+      }
 
       if (req.body.role === "admin") {
         return res
