@@ -80,6 +80,12 @@ class AuthController {
 
   async login(req, res) {
     try {
+      const validation = validationResult(req).array();
+      if (validation.length > 0) {
+        return res
+          .status(HTTP_STATUS.OK)
+          .send(failure("LogIn Failed", validation[0].msg));
+      }
       const { email, password } = req.body;
 
       // check if email & pass exist
