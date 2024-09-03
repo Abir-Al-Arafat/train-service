@@ -30,7 +30,7 @@ class Station {
       if (search) {
         filter["$or"] = [
           { name: { $regex: search, $options: "i" } },
-          { author: { $regex: search, $options: "i" } },
+          { location: { $regex: search, $options: "i" } },
         ];
       }
       console.log(filter.$or);

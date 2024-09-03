@@ -7,7 +7,7 @@ const AuthModel = require("../model/AuthModel");
 class Wallet {
   async getAll(req, res) {
     try {
-      const { sortParam, sortOrder, search, name, page, limit } = req.query;
+      const { sortParam, sortOrder, page, limit } = req.query;
       if (page < 1 || limit < 0) {
         return res
           .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
@@ -16,7 +16,7 @@ class Wallet {
       if (
         (sortOrder && !sortParam) ||
         (!sortOrder && sortParam) ||
-        (sortParam && sortParam !== "name") ||
+        (sortParam && sortParam !== "balance") ||
         (sortOrder && sortOrder !== "asc" && sortOrder !== "desc")
       ) {
         return res
@@ -25,17 +25,6 @@ class Wallet {
       }
       const filter = {};
 
-      if (name) {
-        filter.name = { $regex: name, $options: "i" };
-      }
-      if (search) {
-        filter["$or"] = [
-          { name: { $regex: search, $options: "i" } },
-          { author: { $regex: search, $options: "i" } },
-        ];
-      }
-      console.log(filter.$or);
-      // console.log(typeof Object.keys(JSON.parse(JSON.stringify(filter)))[0]);
       const walletCount = await WalletModel.find({}).count();
       const wallets = await WalletModel.find(filter)
         .sort({

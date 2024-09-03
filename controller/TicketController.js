@@ -9,7 +9,7 @@ const StationModel = require("../model/StationModel");
 class TicketController {
   async getAll(req, res) {
     try {
-      const { sortParam, sortOrder, search, name, page, limit } = req.query;
+      const { sortParam, sortOrder, name, page, limit } = req.query;
       if (page < 1 || limit < 0) {
         return res
           .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
@@ -30,12 +30,7 @@ class TicketController {
       if (name) {
         filter.name = { $regex: name, $options: "i" };
       }
-      if (search) {
-        filter["$or"] = [
-          { name: { $regex: search, $options: "i" } },
-          { author: { $regex: search, $options: "i" } },
-        ];
-      }
+
       console.log(filter.$or);
       // console.log(typeof Object.keys(JSON.parse(JSON.stringify(filter)))[0]);
       const ticketCount = await TicketModel.find({}).count();
