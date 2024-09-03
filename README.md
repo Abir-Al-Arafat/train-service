@@ -60,6 +60,8 @@ npm run dev
 6. Middleware for Authentication and Validations:
    - Middlewares added for validations and to protect routes and ensure only authenticated users can access them.
 7. Error Handling
+8. Ticket Scheduling:
+   - node-cron added for ticket scheduling
 
 <p><strong>Project  Structure:</strong></p>
 
