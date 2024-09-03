@@ -89,7 +89,7 @@ const ticketValidator = {
       .withMessage("Quantity must be a positive integer"),
   ],
   update: [
-    body("train")
+    body("trainId")
       .optional()
       .isMongoId()
       .withMessage("Train ID must be a valid MongoDB ObjectId"),
@@ -98,11 +98,11 @@ const ticketValidator = {
       .isInt({ min: 1 })
       .withMessage("Quantity must be a positive integer"),
 
-    body("origin")
+    body("originStationId")
       .optional()
       .isMongoId()
       .withMessage("Origin Station ID must be a valid MongoDB ObjectId"),
-    body("destination")
+    body("destinationStationId")
       .optional()
       .isMongoId()
       .withMessage("Destination Station ID must be a valid MongoDB ObjectId"),
