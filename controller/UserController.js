@@ -30,17 +30,30 @@ class UserController {
   // gets only one product
   async getOne(req, res) {
     try {
-      const { id } = req.params;
+      const validation = validationResult(req).array();
 
-      const user = await UserModel.find({ _id: id });
-
-      if (user) {
-        return res.status(HTTP_STATUS.OK).send(user[0]);
-      } else {
+      if (validation.length > 0) {
         return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send(`failed to recieve product`);
+          .status(HTTP_STATUS.OK)
+          .send(failure("Failed to get user data", validation[0].msg));
       }
+      const { id } = req.params;
+      console.log(id);
+
+      const authUser = await AuthModel.find({ _id: id }).populate("user");
+      console.log(authUser);
+
+      const user = await UserModel.find({ _id: authUser[0].user._id }).populate(
+        "wallet"
+      );
+      console.log(user);
+
+      if (user.length) {
+        return res.status(HTTP_STATUS.OK).send(user[0]);
+      }
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .send(failure("User not found"));
     } catch (error) {
       return res.status(HTTP_STATUS.BAD_REQUEST).send(`internal server error`);
     }

@@ -6,14 +6,18 @@ const {
   isAuthorized,
   isAuthorizedUser,
 } = require("../middleware/authValidationJWT");
-const { userValidator } = require("../middleware/validation");
+const { userValidator, commonValidator } = require("../middleware/validation");
 
 // gets all user data
-// routes.get("/", isAuthorized, UserController.getAll);
-routes.get("/", UserController.getAll);
+routes.get("/", isAuthorized, UserController.getAll);
 
 // get one user data
-routes.get("/:id", UserController.getOne);
+routes.get(
+  "/:id",
+  isAuthorizedUser,
+  commonValidator.mongoId,
+  UserController.getOne
+);
 
 // // adds balance to user
 // routes.patch("/add-balance/:id", isAuthorizedUser, UserController.addBalance);
